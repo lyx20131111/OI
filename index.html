@@ -1,1 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OI社区 - 页面结构地图</title>
+    <style>
+        /* ===== 全局重置 & 主题 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --bg-primary: #0b0e14;
+            --bg-secondary: #111820;
+            --bg-card: #16202b;
+            --bg-card-hover: #1d2a3a;
+            --text-primary: #e8edf5;
+            --text-secondary: #8899b0;
+            --text-muted: #5a6f88;
+            --border-color: #1f3140;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #4ade80;
+            --accent-blue-glow: rgba(59, 130, 246, 0.15);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --radius: 12px;
+            --transition: 0.25s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 24px 20px 60px;
+            min-height: 100vh;
+        }
+
+        /* ===== 滚动条 ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* ===== 容器 ===== */
+        .container {
+            max-width: 1360px;
+            margin: 0 auto;
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #0b0e14;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .header-stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-stats .num {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .header-actions .badge {
+            font-size: 12px;
+            padding: 4px 14px;
+            background: var(--accent-blue-glow);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 20px;
+        }
+
+        /* ===== 统计卡片（页面总数） ===== */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .summary-card:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+        .summary-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .summary-card .label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ===== 导航标签 ===== */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tabs a {
+            padding: 6px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .tabs a:hover,
+        .tabs a.active {
+            background: var(--bg-card);
+            color: #fff;
+        }
+        .tabs a.active {
+            background: var(--accent-blue-glow);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+        }
+
+        /* ===== 页面树容器 ===== */
+        .tree-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* ===== 树节点 ===== */
+        .tree-node {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tree-node .node-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            transition: var(--transition);
+            cursor: default;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .tree-node .node-label:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        .tree-node .node-label .icon {
+            font-size: 18px;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .tree-node .node-label .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .tree-node .node-label .route {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--bg-primary);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            letter-spacing: 0.2px;
+            border: 1px solid var(--border-color);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        .tree-node .node-label .count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 2px 10px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .tree-node .node-label .tag {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        .tag-nav {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .tag-feature {
+            background: rgba(74, 222, 128, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+        }
+        .tag-admin {
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .tag-vip {
+            background: rgba(251, 191, 36, 0.12);
+            color: #facc15;
+            border: 1px solid rgba(251, 191, 36, 0.15);
+        }
+
+        /* ===== 子节点缩进 ===== */
+        .tree-children {
+            margin-left: 28px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .tree-children .tree-node .node-label {
+            background: var(--bg-secondary);
+            padding: 7px 14px;
+            border-color: transparent;
+            border-bottom-color: var(--border-color);
+            border-radius: 6px;
+        }
+        .tree-children .tree-node .node-label:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        .tree-children .tree-children {
+            margin-left: 20px;
+            border-left-color: var(--border-color);
+        }
+
+        .tree-children .tree-children .tree-node .node-label {
+            background: var(--bg-primary);
+            padding: 5px 12px;
+            font-size: 14px;
+            border-bottom-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+        .tree-children .tree-children .tree-node .node-label .route {
+            font-size: 11px;
+        }
+
+        /* ===== 路由高亮 ===== */
+        .route-highlight {
+            color: var(--accent-cyan) !important;
+            border-color: rgba(34, 211, 238, 0.2) !important;
+        }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            margin-top: 48px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer a:hover {
+            color: var(--accent-cyan);
+        }
+        .footer .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .header-stats {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .tree-node .node-label {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .tree-node .node-label .route {
+                margin-left: 0;
+                width: 100%;
+            }
+            .tree-children {
+                margin-left: 12px;
+                padding-left: 8px;
+            }
+            .tree-children .tree-children {
+                margin-left: 8px;
+            }
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tabs {
+                gap: 4px;
+            }
+            .tabs a {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px 10px 40px;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .summary-card .number {
+                font-size: 24px;
+            }
+        }
+
+        /* ===== 工具类 ===== */
+        .text-muted {
+            color: var(--text-muted);
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .flex {
+            display: flex;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .items-center {
+            align-items: center;
+        }
+
+        /* 搜索框占位 */
+        .search-bar {
+            padding: 6px 14px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            width: 200px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .search-bar:focus {
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <a href="#" class="logo">
+                <span class="logo-icon">OI</span>
+                <span>OI 社区</span>
+                <span style="font-size:12px;font-weight:400;color:var(--text-muted);margin-left:4px;">页面结构地图</span>
+            </a>
+            <div class="header-stats">
+                <span>📄 总页面 <span class="num" id="totalPages">0</span></span>
+                <span>📁 模块 <span class="num">28</span></span>
+                <span>🔗 路由 <span class="num">110+</span></span>
+            </div>
+            <div class="header-actions">
+                <span class="badge">🟢 开发中</span>
+                <input class="search-bar" type="text" placeholder="🔍 筛选页面..." id="pageFilter" />
+            </div>
+        </header>
+
+        <!-- ===== SUMMARY ===== -->
+        <div class="summary-grid" id="summaryGrid">
+            <div class="summary-card"><div class="number">8</div><div class="label">导航模块</div></div>
+            <div class="summary-card"><div class="number">26</div><div class="label">功能分区</div></div>
+            <div class="summary-card"><div class="number">112</div><div class="label">页面 / 路由</div></div>
+            <div class="summary-card"><div class="number">4</div><div class="label">系统角色</div></div>
+            <div class="summary-card"><div class="number">18</div><div class="label">业务规则</div></div>
+            <div class="summary-card"><div class="number">55+</div><div class="label">异常处理</div></div>
+        </div>
+
+        <!-- ===== TABS (快速跳转) ===== -->
+        <div class="tabs" id="navTabs">
+            <a href="#sec-core" class="active">🏠 核心</a>
+            <a href="#sec-problem">📝 题目</a>
+            <a href="#sec-judge">⚙️ 评测</a>
+            <a href="#sec-contest">🏆 比赛</a>
+            <a href="#sec-team">👥 团队</a>
+            <a href="#sec-blog">📖 博客</a>
+            <a href="#sec-community">💬 社区</a>
+            <a href="#sec-user">👤 用户</a>
+            <a href="#sec-admin">🔐 后台</a>
+            <a href="#sec-other">✨ 其他</a>
+        </div>
+
+        <!-- ===== PAGE TREE ===== -->
+        <div class="tree-wrapper" id="treeWrapper">
+
+            <!-- ============================================================ -->
+            <!-- 首页 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-core">
+                <div class="node-label">
+                    <span class="icon">🏠</span>
+                    <span class="name">首页</span>
+                    <span class="route">/</span>
+                    <span class="count">1 页</span>
+                    <span class="tag tag-nav">导航</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📰</span> 公告轮播 · 最新题目 · 热门比赛 · 活动推荐
+                            <span class="route">/</span>
+                        </div>
+                    </div>
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📊</span> 统计面板（四格正方形 · count-up 动画 · 发光边框）
+                            <span class="route">/</span>
+                        </div>
+                    </div>
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">🏅</span> 小框排行榜（积分 / Rating / AC 榜）
+                            <span class="route">/</span>
+                        </div>
+                    </div>
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">🔮</span> 每日运势入口
+                            <span class="route">/fortune</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 竞赛题目 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-problem">
+                <div class="node-label">
+                    <span class="icon">📝</span>
+                    <span class="name">竞赛题目</span>
+                    <span class="route">/problems</span>
+                    <span class="count">6 页</span>
+                    <span class="tag tag-nav">导航</span>
+                </div>
+                <div class="tree-children">
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📋</span> 题目列表页
+                            <span class="route">/problems</span>
+                            <span class="count">筛选 · 搜索 · 分页</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label"><span class="icon">🔍</span> 按难度 / 标签 / 来源 / 算法分类筛选</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">🔎</span> 按题目名 / 题面内容搜索</div></div>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📄</span> 题目详情页
+                            <span class="route">/problem/:id</span>
+                            <span class="tag tag-feature">核心</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label"><span class="icon">📖</span> 题面 · 输入/输出 · 样例 · 数据范围 · 限制</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">⌨️</span> Monaco Editor（多语言 · 3 套皮肤 · 高度可拖拽）</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">📤</span> 提交代码 · 保存代码 · 上传测试点 (ZIP)</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">📑</span> <strong>一键导出试卷格式 PDF</strong> <span class="tag tag-vip">VIP</span></div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">✏️</span> <strong>算法草稿纸浮窗</strong>（可拖拽 · 画笔 · 橡皮擦） <span class="tag tag-feature">特色</span></div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">🏷️</span> 收藏 · 举报 · 评分 · 申请自定义标签 → 工单</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">🔘</span> 题目状态（比赛模式 / 隐藏 / 公开 / 仅团队可见）</div></div>
+                            <div class="tree-node"><div class="node-label"><span class="icon">📎</span> 查看题解 → <code>/problem/:id/solutions</code></div></div>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">💬</span> 题目讨论版页
+                            <span class="route">/problem/:id/discuss</span>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📊</span> 题目提交记录页
+                            <span class="route">/problem/:id/submissions</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">按用户 / 状态筛选 · 用户名模糊搜索 · user_id 前缀搜索</div></div>
+                            <div class="tree-node"><div class="node-label">用户名按估值渲染颜色 · tag 紧跟其后</div></div>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📚</span> 题解区页
+                            <span class="route">/problem/:id/solutions</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">发布 · 浏览 · 点赞 · 评论题解</div></div>
+                            <div class="tree-node"><div class="node-label">站长开关「停止题解审核」→ 普通用户禁用提交</div></div>
+                        </div>
+                    </div>
+
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📤</span> 投题页（改版布局）
+                            <span class="route">/problem/submit</span>
+                            <span class="tag tag-feature">改版</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">两列网格表单 · 题目编号 · 标题 · 难度 · 时间/内存</div></div>
+                            <div class="tree-node"><div class="node-label">测试点：ZIP 导入 / + 添加测试点卡片</div></div>
+                            <div class="tree-node"><div class="node-label">标签选择（30+ 算法标签）</div></div>
+                            <div class="tree-node"><div class="node-label">必填：省份 · 城市</div></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 评测功能 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-judge">
+                <div class="node-label">
+                    <span class="icon">⚙️</span>
+                    <span class="name">评测功能</span>
+                    <span class="route">/submissions</span>
+                    <span class="count">2 页</span>
+                    <span class="tag tag-feature">核心</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">📋</span> 提交记录列表页
+                            <span class="route">/submissions</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">按用户 / 题目 / 状态 / 语言筛选</div></div>
+                            <div class="tree-node"><div class="node-label">用户名模糊搜索 · user_id 前缀搜索</div></div>
+                            <div class="tree-node"><div class="node-label">用户名按估值渲染颜色 · tag 紧跟其后</div></div>
+                        </div>
+                    </div>
+                    <div class="tree-node">
+                        <div class="node-label">
+                            <span class="icon">🔬</span> 评测详情页
+                            <span class="route">/submission/:id</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">展示代码 · 各测试点结果 (AC/WA/TLE/MLE/RE/CE/UKE)</div></div>
+                            <div class="tree-node"><div class="node-label">总得分 · 总用时 · 总内存 · 实时轮询</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 比赛系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-contest">
+                <div class="node-label">
+                    <span class="icon">🏆</span>
+                    <span class="name">比赛系统</span>
+                    <span class="route">/contests</span>
+                    <span class="count">9 页</span>
+                    <span class="tag tag-nav">导航</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 比赛列表页 <span class="route">/contests</span> (未开始/进行中/已结束)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📅</span> 比赛日历页 <span class="route">/contests/calendar</span></div></div>
+                    <div class="tree-node">
+                        <div class="node-label"><span class="icon">📄</span> 比赛详情页 <span class="route">/contest/:id</span></div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">ACM / OI 赛制 · 正式 / 测试功能</div></div>
+                            <div class="tree-node"><div class="node-label">题目列表（支持 #1 快速添加）</div></div>
+                            <div class="tree-node"><div class="node-label">入口：排名榜 · 公告 · 讨论 · 报名</div></div>
+                        </div>
+                    </div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">✅</span> 比赛报名页 <span class="route">/contest/:id/register</span> (VIP 可设通知)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏅</span> 比赛排名榜页 <span class="route">/contest/:id/ranking</span> (实时 · 气球标记)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📢</span> 比赛公告页 <span class="route">/contest/:id/announcements</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">💬</span> 比赛讨论页 <span class="route">/contest/:id/discuss</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔄</span> 赛后补题页 <span class="route">/contest/:id/practice</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📝</span> 公开赛申请页 <span class="route">/contest/apply</span> (支持 #1 快速添加)</div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 题单 / 训练计划 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-problem">
+                <div class="node-label">
+                    <span class="icon">📚</span>
+                    <span class="name">题单 / 训练计划</span>
+                    <span class="route">/training</span>
+                    <span class="count">3 页</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 题单列表页 <span class="route">/training</span> (官方/自建/推荐/难度分级)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📄</span> 题单详情页 <span class="route">/training/:id</span> (支持 #1 快速添加 · 完成进度)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎯</span> 刷题计划页 <span class="route">/training/plan</span> (创建 · 跟踪进度 · 编辑/删除)</div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 水平测试系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node">
+                <div class="node-label">
+                    <span class="icon">📊</span>
+                    <span class="name">水平测试系统</span>
+                    <span class="route">/level-test</span>
+                    <span class="count">4 页</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 水平测试列表页 <span class="route">/level-test</span> (A1/A2/B1/B2/C)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📄</span> 水平测试详情页 <span class="route">/level-test/:id</span> (答题模式 · 自动评测)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📈</span> 水平测试成绩页 <span class="route">/level-test/:id/result</span> (等级判定 · 徽章发放)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏅</span> 等级徽章分享页 <span class="route">/level-test/badge/share</span> (生成分享图 · 下载)</div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 团队系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-team">
+                <div class="node-label">
+                    <span class="icon">👥</span>
+                    <span class="name">团队系统</span>
+                    <span class="route">/teams</span>
+                    <span class="count">8 页</span>
+                    <span class="tag tag-nav">导航</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 团队列表页 <span class="route">/teams</span> (高级/中级/低级 · 创建团队)</div></div>
+                    <div class="tree-node">
+                        <div class="node-label"><span class="icon">📄</span> 团队详情页 <span class="route">/team/:id</span></div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">成员列表 · 管理入口 · 团队赛 · 排行榜 · 主页 · 公告 · 动态</div></div>
+                            <div class="tree-node"><div class="node-label"><strong>团队赛 Tab</strong>：创建内部比赛（标题/描述/开始/结束 · 支持 #1 快速添加）</div></div>
+                        </div>
+                    </div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">👤</span> 团队成员管理页 <span class="route">/team/:id/members</span> (添加/移除/权限)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏅</span> 团队排行榜页 <span class="route">/team/:id/ranking</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏠</span> 团队主页 <span class="route">/team/:id/home</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📢</span> 团队公告页 <span class="route">/team/:id/announcements</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📰</span> 团队动态页 <span class="route">/team/:id/activity</span></div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 博客 / 专栏系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-blog">
+                <div class="node-label">
+                    <span class="icon">📖</span>
+                    <span class="name">博客 / 专栏系统</span>
+                    <span class="route">/blogs</span>
+                    <span class="count">4 页</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 博客列表页 <span class="route">/blogs</span> (按专栏分类筛选)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📄</span> 博客详情页 <span class="route">/blog/:id</span> (评论 · 点赞 · 收藏 · @提及)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📂</span> 专栏分类页 <span class="route">/blogs/columns</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">✏️</span> 博客编辑页 <span class="route">/blog/edit</span> (Markdown · 实时预览)</div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 社区功能 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-community">
+                <div class="node-label">
+                    <span class="icon">💬</span>
+                    <span class="name">社区功能</span>
+                    <span class="route">/discuss</span>
+                    <span class="count">3 页</span>
+                    <span class="tag tag-feature">核心</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 讨论区列表页 <span class="route">/discuss</span> (板块分类 · 加精/置顶 · 发帖)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📄</span> 帖子详情页 <span class="route">/post/:id</span> (回复 · 点赞 · 举报 · @提及 · 管理员加精/置顶)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📚</span> 题解区页 <span class="route">/problem/:id/solutions</span> (详见题目模块)</div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 用户系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-user">
+                <div class="node-label">
+                    <span class="icon">👤</span>
+                    <span class="name">用户系统</span>
+                    <span class="route">/user</span>
+                    <span class="count">9 页</span>
+                    <span class="tag tag-nav">导航</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📝</span> 注册页 <span class="route">/register</span> (邮箱验证)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔑</span> 登录页 <span class="route">/login</span> (站长账号: lyx20131111)</div></div>
+                    <div class="tree-node">
+                        <div class="node-label"><span class="icon">🏠</span> 个人主页（洛谷风格） <span class="route">/user/:id</span> <span class="tag tag-feature">核心</span></div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">左侧：信息卡 · 颜色名标签 · 估值颜色 · tag · 等级徽章 · 咕值 · Rating趋势图（极客绿）</div></div>
+                            <div class="tree-node"><div class="node-label">右侧：动态 / 博客 / 提交记录 / 题单 / <strong>惩罚记录</strong> Tab</div></div>
+                            <div class="tree-node"><div class="node-label">已绑定 OJ 账号 · 徽章/勋章墙 · 解题统计</div></div>
+                            <div class="tree-node"><div class="node-label">颜色里程碑 · 关注/取消关注 · 私信入口</div></div>
+                            <div class="tree-node"><div class="node-label">右上角「隐私设置」快捷入口</div></div>
+                        </div>
+                    </div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">⚙️</span> 用户设置页 <span class="route">/user/settings</span> (修改资料 · 密码 · 自定义 tag)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔒</span> 隐私设置页 <span class="route">/user/privacy</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔗</span> OJ账号绑定页 <span class="route">/user/oauth</span> <span class="tag tag-feature">改良</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">✅</span> AC打卡记录页 <span class="route">/user/ac-calendar</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📤</span> 代码分享页 <span class="route">/user/code-share</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏅</span> 勋章/称号展示页 <span class="route">/user/badges</span></div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 管理员系统 -->
+            <!-- ============================================================ -->
+            <div class="tree-node">
+                <div class="node-label">
+                    <span class="icon">🛡️</span>
+                    <span class="name">管理员系统</span>
+                    <span class="route">/admin/apply</span>
+                    <span class="count">2 页</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">📝</span> 管理员申请页 <span class="route">/admin/apply</span> (申请区域 · 任期时长)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 管理员申请记录页 <span class="route">/admin/apply/records</span></div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 后台（管理员与站长） -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-admin">
+                <div class="node-label">
+                    <span class="icon">🔐</span>
+                    <span class="name">后台（管理员与站长）</span>
+                    <span class="route">/admin</span>
+                    <span class="count">16 页</span>
+                    <span class="tag tag-admin">站长/管理员</span>
+                </div>
+                <div class="tree-children">
+                    <div class="tree-node"><div class="node-label"><span class="icon">👤</span> 用户管理页 <span class="route">/admin/users</span> (封禁 · 权限 · 惩罚)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📝</span> 题目管理页 <span class="route">/admin/problems</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏆</span> 比赛管理页 <span class="route">/admin/contests</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📤</span> 投题审核页 <span class="route">/admin/problem-review</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📝</span> 公开赛审核页 <span class="route">/admin/contest-review</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎫</span> 工单管理页 <span class="route">/admin/tickets</span> (含自定义标签审核)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🚨</span> 反作弊管理页 <span class="route">/admin/anti-cheat</span> (确认作弊 → 棕名 · 扣分 · 封禁)</div></div>
+                    <div class="tree-node">
+                        <div class="node-label"><span class="icon">⚙️</span> 管理员管理组件 <span class="route">/admin/managers</span> <span class="tag tag-admin">仅站长</span></div>
+                        <div class="tree-children">
+                            <div class="tree-node"><div class="node-label">📋 管理员列表 (修改 tag · 延长任期 · 移除)</div></div>
+                            <div class="tree-node"><div class="node-label">🔨 惩罚用户 (禁言/禁私信/禁图床等 8 种禁令)</div></div>
+                            <div class="tree-node"><div class="node-label">📊 惩罚记录 (撤销惩罚)</div></div>
+                        </div>
+                    </div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📩</span> 作弊申诉审核页 <span class="route">/admin/cheat-appeal</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔓</span> 解封申请审核页 <span class="route">/admin/unblock-appeal</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 用户惩罚记录页 <span class="route">/admin/punishments</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🗳️</span> 陶片投票通知页 <span class="route">/admin/ostracism</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔗</span> 友情链接管理页 <span class="route">/admin/links</span> <span class="tag tag-admin">仅站长</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">💰</span> 团队价格设置页 <span class="route">/admin/team-pricing</span> <span class="tag tag-admin">仅站长</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">⚙️</span> 站点设置页 <span class="route">/admin/settings</span> <span class="tag tag-admin">仅站长</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🗑️</span> 账号抹除页 <span class="route">/admin/delete-account</span> <span class="tag tag-admin">仅站长</span></div></div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 其他功能 -->
+            <!-- ============================================================ -->
+            <div class="tree-node" id="sec-other">
+                <div class="node-label">
+                    <span class="icon">✨</span>
+                    <span class="name">其他功能</span>
+                    <span class="route">/misc</span>
+                    <span class="count">20+ 页</span>
+                    <span class="tag tag-feature">扩展</span>
+                </div>
+                <div class="tree-children" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px 0 4px 16px;">
+
+                    <div class="tree-node"><div class="node-label"><span class="icon">🤖</span> xtuan AI 对话 <span class="route">/ai</span> <span class="tag tag-feature">文心大模型</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📦</span> 图床管理 <span class="route">/image</span> (10MB/10GB/100MB/不限)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">💌</span> 私信系统 <span class="route">/messages</span> (洛谷风格 · 实时)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎯</span> 任务中心 <span class="route">/tasks</span> (签到 · 成就 · 勋章 · 积分兑换)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">💰</span> 积分转账 <span class="route">/transfer</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📈</span> Rating 趋势 <span class="route">/rating</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🏅</span> 排行榜 (5 个) <span class="route">/ranking</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎮</span> 娱乐小游戏 <span class="route">/games</span> (起床战争 · 防刷)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🛒</span> 商城 <span class="route">/shop</span> (VIP 折扣 · 领取)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎰</span> 抽奖系统 <span class="route">/lottery</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎫</span> 工单系统 <span class="route">/tickets</span> (Realtime 推送)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">💎</span> VIP 专属 <span class="route">/vip</span> <span class="tag tag-vip">VIP</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🎨</span> 主题切换 <span class="route">/theme</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📄</span> 关于 / 帮助 / 反馈 <span class="route">/about · /help · /feedback</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔍</span> 站内搜索 <span class="route">/search</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📋</span> 云剪切板 <span class="route">/clipboard</span> (Markdown+LaTeX)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">⚔️</span> PvP 对战 <span class="route">/pvp</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🧪</span> 沙盒 <span class="route">/sandbox</span> (Monaco Editor)</div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔮</span> 每日运势 <span class="route">/fortune</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📊</span> 熟练度 <span class="route">/proficiency</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">📢</span> 招募 / 贡献 <span class="route">/recruit · /contributions</span></div></div>
+                    <div class="tree-node"><div class="node-label"><span class="icon">🔗</span> 友情链接（底部） <span class="route">/footer-links</span></div></div>
+
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- 底部提示 -->
+            <!-- ============================================================ -->
+            <div style="margin-top:20px;padding:16px 20px;background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border-color);font-size:14px;color:var(--text-secondary);">
+                <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
+                    <span><strong>📌 图例</strong></span>
+                    <span><span class="tag tag-nav" style="display:inline-block;">导航</span> 顶部导航入口</span>
+                    <span><span class="tag tag-feature" style="display:inline-block;">核心</span> 核心/特色功能</span>
+                    <span><span class="tag tag-admin" style="display:inline-block;">站长/管理员</span> 仅管理员/站长</span>
+                    <span><span class="tag tag-vip" style="display:inline-block;">VIP</span> VIP 专属</span>
+                    <span style="margin-left:auto;font-size:12px;color:var(--text-muted);">点击模块标题可快速定位 · 共 112+ 页面</span>
+                </div>
+            </div>
+
+        </div><!-- /tree-wrapper -->
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <span>OI 社区 · 页面结构地图 v1.0</span>
+            <div class="links">
+                <a href="#">首页</a>
+                <a href="#">题目</a>
+                <a href="#">比赛</a>
+                <a href="#">团队</a>
+                <a href="#">博客</a>
+                <a href="#">关于</a>
+                <a href="#" style="color:var(--accent-cyan);">📄 共 112+ 页面</a>
+            </div>
+        </footer>
+
+    </div><!-- /container -->
+
+    <script>
+        (function() {
+            // 统计总页面数（粗略估算：计算所有 .tree-node 中带 .route 的节点数量）
+            const allRouteNodes = document.querySelectorAll('.tree-node .node-label .route');
+            const totalPages = allRouteNodes.length;
+            document.getElementById('totalPages').textContent = totalPages;
+
+            // 搜索过滤
+            const filterInput = document.getElementById('pageFilter');
+            const allNodes = document.querySelectorAll('.tree-node');
+
+            filterInput.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                allNodes.forEach(node => {
+                    const text = node.textContent.toLowerCase();
+                    // 如果包含搜索词则显示，否则隐藏
+                    if (query === '' || text.includes(query)) {
+                        node.style.display = '';
+                    } else {
+                        node.style.display = 'none';
+                    }
+                });
+                // 重新统计可见节点数（可选）
+            });
+
+            // 导航 Tab 点击滚动
+            document.querySelectorAll('#navTabs a').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const targetEl = document.querySelector(targetId);
+                        if (targetEl) {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                    // 激活样式
+                    document.querySelectorAll('#navTabs a').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 点击 .node-label 中的 .name 或 .route 也可以展开/收起子节点（增强体验）
+            // 这里只做简单的展开/收起功能：点击有子节点的 .node-label 切换子节点显示
+            document.querySelectorAll('.tree-node .node-label').forEach(label => {
+                const parentNode = label.closest('.tree-node');
+                const children = parentNode.querySelector(':scope > .tree-children');
+                if (!children) return;
+
+                // 默认全部展开，但可以点击切换
+                label.style.cursor = 'pointer';
+                label.addEventListener('click', function(e) {
+                    // 防止点击内部链接或输入框触发
+                    if (e.target.closest('a') || e.target.closest('input')) return;
+                    if (children) {
+                        const isHidden = children.style.display === 'none';
+                        children.style.display = isHidden ? 'flex' : 'none';
+                        // 切换一个小图标指示
+                        const icon = this.querySelector('.icon');
+                        if (icon) {
+                            // 简单旋转效果
+                        }
+                    }
+                });
+            });
+
+            // 统计各模块页面数（粗略）
+            const sections = document.querySelectorAll('.tree-node > .node-label .name');
+            console.log('✅ OI社区页面结构地图已加载，总页面数:', totalPages);
+
+        })();
+    </script>
+
+</body>
+</html>
