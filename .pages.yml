@@ -1,0 +1,7 @@
+media: media
+content:
+  - name: homepage
+    label: 网站主页
+    type: file
+    path: index.html
+    format: code
